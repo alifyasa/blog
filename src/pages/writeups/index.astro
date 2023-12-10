@@ -1,0 +1,29 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { slugify } from "../../lib";
+import { format } from "date-fns";
+
+const writeups = await getCollection("writeups");
+const entries = writeups.map((entry) => ({
+    title: entry.data.title,
+    date: format(entry.data.pubDate, "yyyy/MM/dd"),
+    link: `${Astro.url}/${slugify(entry.data.title)}`,
+})).toSorted((a, b) => a.date.localeCompare(b.date) * -1); // Newest first
+---
+
+<BaseLayout>
+    <h1>List of Writeups ({entries.length})</h1>
+    <ul>
+        {
+            entries.map((entry) => (
+                <li class="text-xl flex flex-row">
+                    <div class="w-32">{entry.date}</div>
+                    <div>
+                        <a href={entry.link}>{entry.title}</a>
+                    </div>
+                </li>
+            ))
+        }
+    </ul>
+</BaseLayout>

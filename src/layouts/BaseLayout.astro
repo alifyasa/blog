@@ -1,0 +1,31 @@
+---
+const { title } = Astro.props;
+---
+
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="viewport" content="width=device-width" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+
+	<body>
+		<nav class="text-xl sticky top-0 bg-main border-b border-neutral-400 text-color-main">
+			<ul class="flex flex-row p-6">
+				<li class="mr-auto"><a href="/">Home</a></li>
+				<li class="mr-6"><a href="/tags">Tags</a></li>
+				<li class="mr-6"><a href="/writeups">Writeups</a></li>
+				<li><a href="/blog">Blog</a></li>
+			</ul>
+		</nav>
+		<div class="max-w-2xl mx-auto px-4 pt-4 pb-16 text-color-main">
+			<slot />
+		</div>
+	</body>
+</html>
+
+<style>
+	@import "../styles/global.css";
+</style>

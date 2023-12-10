@@ -1,0 +1,46 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import { slugify } from "../../lib";
+import { format } from "date-fns";
+
+const blogs = await getCollection("blogs");
+const blogTags = blogs.map((entry) => [...new Set(entry.data.tags)]);
+
+const writeups = await getCollection("writeups");
+const writeupsTags = writeups.map((entry) => [...new Set(entry.data.tags)]);
+
+const allTags = blogTags.concat(writeupsTags);
+function countOccurrences(arr: string[][]): { [key: string]: number } {
+    const occurrences: { [key: string]: number } = {};
+
+    arr.forEach((innerArr) => {
+        innerArr.forEach((item) => {
+            if (occurrences[item]) {
+                occurrences[item]++;
+            } else {
+                occurrences[item] = 1;
+            }
+        });
+    });
+
+    return occurrences;
+}
+const tagsCount = countOccurrences(allTags);
+const tagsList = Object.keys(tagsCount)
+    .toSorted((a, b) => tagsCount[b] - tagsCount[a])
+---
+
+<BaseLayout>
+    <h1>List of Tags ({blogTags.length})</h1>
+    <ul class="list-disc list-inside text-xl">
+        {
+            tagsList.map((tag) => (
+                <li>
+                    <a href={`${Astro.url}/${slugify(tag)}`}>{tag}</a>
+                    ({tagsCount[tag]})
+                </li>
+            ))
+        }
+    </ul>
+</BaseLayout>

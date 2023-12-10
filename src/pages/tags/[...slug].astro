@@ -1,0 +1,76 @@
+---
+import { getCollection } from "astro:content";
+import { slugify } from "../../lib";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { format } from "date-fns";
+
+export async function getStaticPaths() {
+  const blogs = await getCollection("blogs");
+  const blogTags = blogs.map((entry) => ({
+    tags: [...new Set(entry.data.tags)],
+    entry: {
+      ...entry,
+      collection: "blog"
+    },
+  }));
+
+  const writeups = await getCollection("writeups");
+  const writeupsTags = writeups.map((entry) => ({
+    tags: [...new Set(entry.data.tags)],
+    entry: {
+      ...entry,
+      collection: "writeups"
+    },
+  }));
+
+  const allTags = [...blogTags, ...writeupsTags];
+
+  const tagsOccurrences: { [key: string]: {
+    data: { 
+      title: string,
+      pubDate: Date
+    },
+    collection: string
+  }[] } = {};
+
+  allTags.forEach((innerArr) => {
+    innerArr.tags.forEach((tag) => {
+      if (tagsOccurrences[tag]) {
+        tagsOccurrences[tag].push(innerArr.entry);
+      } else {
+        tagsOccurrences[tag] = [innerArr.entry];
+      }
+    });
+  });
+
+  return Object.keys(tagsOccurrences).map((tag) => ({
+    params: { slug: slugify(tag) },
+    props: {
+      tag,
+      entryList: tagsOccurrences[tag].map(entry => ({
+        title: entry.data.title,
+        date: format(entry.data.pubDate, "yyyy/MM/dd"),
+        link: `${entry.collection}/${slugify(entry.data.title)}`
+      })).toSorted((a, b) => a.date.localeCompare(b.date) * -1),
+    },
+  }));
+}
+
+const { tag, entryList } = Astro.props;
+---
+
+<BaseLayout>
+  <h1>Tag: {tag} ({entryList.length})</h1>
+  <ul>
+    {
+      entryList.map((entry) => (
+        <li class="text-xl flex flex-row">
+          <div class="w-32">{entry.date}</div>
+          <div>
+            <a href={entry.link}>{entry.title}</a>
+          </div>
+        </li>
+      ))
+    }
+  </ul>
+</BaseLayout>
