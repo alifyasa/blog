@@ -31,7 +31,7 @@ const tagsList = Object.keys(tagsCount)
     .toSorted((a, b) => tagsCount[b] - tagsCount[a])
 ---
 
-<BaseLayout>
+<BaseLayout title="Tags">
     <h1>List of Tags ({blogTags.length})</h1>
     <ul class="list-disc list-inside text-xl">
         {

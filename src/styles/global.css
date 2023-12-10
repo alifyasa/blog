@@ -1,27 +1,31 @@
-@import '@fontsource/atkinson-hyperlegible';
+@import '@fontsource/atkinson-hyperlegible/400.css';
+@import '@fontsource/atkinson-hyperlegible/700.css';
+
+@import '@fontsource/atkinson-hyperlegible/400-italic.css';
+@import '@fontsource/atkinson-hyperlegible/700-italic.css';
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer components {
-    .bg-main {
-        @apply bg-neutral-50;
-    }
-
-    .text-color-main {
-        @apply text-neutral-900;
-    }
-}
-
-@media (prefers-color-scheme: dark) {
-    @layer components {
+    @media (prefers-color-scheme: dark) {
         .bg-main {
             @apply bg-neutral-900;
         }
-    
+
         .text-color-main {
             @apply text-neutral-300;
+        }
+    }
+
+    @media (prefers-color-scheme: light) {
+        .bg-main {
+            @apply bg-neutral-50;
+        }
+
+        .text-color-main {
+            @apply text-neutral-900;
         }
     }
 }
@@ -37,14 +41,12 @@ p {
 }
 
 h1 {
-    @apply font-bold;
     @apply text-4xl;
     @apply leading-loose;
     @apply mb-2;
 }
 
 h2 {
-    @apply font-bold;
     @apply text-3xl;
     @apply leading-loose;
     @apply mb-2;

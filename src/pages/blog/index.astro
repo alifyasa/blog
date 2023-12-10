@@ -12,8 +12,8 @@ const entries = writeups.map((entry) => ({
 })).toSorted((a, b) => a.date.localeCompare(b.date) * -1); // Newest first
 ---
 
-<BaseLayout>
-    <h1>List of Writeups ({entries.length})</h1>
+<BaseLayout title="Blog Posts">
+    <h1>List of Blog Posts ({entries.length})</h1>
     <ul>
         {
             entries.map((entry) => (
