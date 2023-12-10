@@ -36,7 +36,7 @@ const tagsList = Object.keys(tagsCount)
         {
             tagsList.map((tag) => (
                 <li>
-                    <a href={`${Astro.url.pathname}/${slugify(tag)}`}>{tag}</a>
+                    <a href={`/${Astro.url.pathname}/${slugify(tag)}`}>{tag}</a>
                     ({tagsCount[tag]})
                 </li>
             ))
