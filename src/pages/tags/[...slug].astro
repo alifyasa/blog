@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import { slugify } from "../../lib";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { format } from "date-fns";
+import pathToChild from "../../lib/pathToChild";
 
 export async function getStaticPaths() {
   const blogs = await getCollection("blogs");
@@ -50,7 +51,7 @@ export async function getStaticPaths() {
       entryList: tagsOccurrences[tag].map(entry => ({
         title: entry.data.title,
         date: format(entry.data.pubDate, "yyyy/MM/dd"),
-        link: `/${entry.collection}/${slugify(entry.data.title)}`
+        link: pathToChild(entry.collection, slugify(entry.data.title)),
       })).toSorted((a, b) => a.date.localeCompare(b.date) * -1),
     },
   }));

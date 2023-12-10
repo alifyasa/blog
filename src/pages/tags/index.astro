@@ -2,6 +2,7 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import { slugify } from "../../lib";
+import pathToChild from "../../lib/pathToChild";
 
 const blogs = await getCollection("blogs");
 const blogTags = blogs.map((entry) => [...new Set(entry.data.tags)]);
@@ -36,7 +37,7 @@ const tagsList = Object.keys(tagsCount)
         {
             tagsList.map((tag) => (
                 <li>
-                    <a href={`/${Astro.url.pathname}/${slugify(tag)}`}>{tag}</a>
+                    <a href={pathToChild(Astro.url.pathname, slugify(tag))}>{tag}</a>
                     ({tagsCount[tag]})
                 </li>
             ))
