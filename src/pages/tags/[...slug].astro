@@ -50,7 +50,7 @@ export async function getStaticPaths() {
       entryList: tagsOccurrences[tag].map(entry => ({
         title: entry.data.title,
         date: format(entry.data.pubDate, "yyyy/MM/dd"),
-        link: `${entry.collection}/${slugify(entry.data.title)}`
+        link: `/${entry.collection}/${slugify(entry.data.title)}`
       })).toSorted((a, b) => a.date.localeCompare(b.date) * -1),
     },
   }));
