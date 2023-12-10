@@ -58,6 +58,12 @@ p {
     @apply mb-2;
 }
 
+a {
+    @apply underline;
+    @apply underline-offset-4;
+    @apply decoration-dotted;
+}
+
 pre {
     @apply rounded;
     @apply px-4;
