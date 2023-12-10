@@ -8,7 +8,7 @@ const writeups = await getCollection("writeups");
 const entries = writeups.map((entry) => ({
     title: entry.data.title,
     date: format(entry.data.pubDate, "yyyy/MM/dd"),
-    link: `${Astro.url}/${slugify(entry.data.title)}`,
+    link: `${Astro.url.pathname}/${slugify(entry.data.title)}`,
 })).toSorted((a, b) => a.date.localeCompare(b.date) * -1); // Newest first
 ---
 
