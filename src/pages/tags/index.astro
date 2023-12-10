@@ -2,7 +2,6 @@
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
 import { slugify } from "../../lib";
-import { format } from "date-fns";
 
 const blogs = await getCollection("blogs");
 const blogTags = blogs.map((entry) => [...new Set(entry.data.tags)]);
